@@ -133,6 +133,16 @@
     .soc:hover{color:var(--txt);border-color:var(--bdr2);background:var(--surf2)}
     .soc svg{width:17px;height:17px;color:var(--acc);flex-shrink:0}
 
+    /* ── Travel ── */
+    .travel-stats{display:flex;gap:1rem;margin-bottom:1.75rem;flex-wrap:wrap}
+    .travel-stat{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:1.1rem 1.4rem;flex:1;min-width:110px}
+    .travel-stat-label{font-size:.72rem;color:var(--mut);margin-bottom:.2rem;font-weight:400;letter-spacing:.04em}
+    .travel-stat-value{font-size:1.6rem;font-weight:500;color:var(--txt);line-height:1}
+    .travel-stat-sub{font-size:.72rem;color:var(--fnt);margin-top:.2rem}
+    #world-map-wrap{width:100%;border-radius:var(--r);overflow:hidden;border:1px solid var(--bdr);margin-bottom:1.25rem}
+    .country-pills{display:flex;flex-wrap:wrap;gap:.4rem}
+    .cpill{font-size:.72rem;padding:.2rem .6rem;border-radius:100px;background:var(--surf);color:var(--mut);border:1px solid var(--bdr)}
+
     footer{border-top:1px solid var(--bdr);padding:2rem 0;text-align:center}
     footer p{font-size:.77rem;color:var(--fnt)}
 
@@ -159,6 +169,7 @@
     <li><a href="#research">Research</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#publications">Publications</a></li>
+    <li><a href="#travel">Travel</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -485,6 +496,61 @@
 
 <hr class="sep" />
 
+<section id="travel">
+  <div class="wrap">
+    <p class="slabel">Around the world</p>
+    <h2 class="st">Places visited</h2>
+
+    <div class="travel-stats fi">
+      <div class="travel-stat">
+        <div class="travel-stat-label">Countries</div>
+        <div class="travel-stat-value">22</div>
+      </div>
+      <div class="travel-stat">
+        <div class="travel-stat-label">World coverage</div>
+        <div class="travel-stat-value">11%</div>
+        <div class="travel-stat-sub">of 195 countries</div>
+      </div>
+      <div class="travel-stat">
+        <div class="travel-stat-label">Continents</div>
+        <div class="travel-stat-value">4</div>
+        <div class="travel-stat-sub">Americas · Europe · Asia · Oceania</div>
+      </div>
+    </div>
+
+    <div id="world-map-wrap" class="fi">
+      <svg id="world-map" viewBox="0 0 900 460" width="100%" style="display:block;background:#12151c"></svg>
+    </div>
+
+    <div class="country-pills fi">
+      <span class="cpill">Austria</span>
+      <span class="cpill">Belgium</span>
+      <span class="cpill">Bulgaria</span>
+      <span class="cpill">Colombia</span>
+      <span class="cpill">Czech Republic</span>
+      <span class="cpill">France</span>
+      <span class="cpill">Germany</span>
+      <span class="cpill">Italy</span>
+      <span class="cpill">Lithuania</span>
+      <span class="cpill">Monaco</span>
+      <span class="cpill">Netherlands</span>
+      <span class="cpill">Panama</span>
+      <span class="cpill">Portugal</span>
+      <span class="cpill">Romania</span>
+      <span class="cpill">Singapore</span>
+      <span class="cpill">South Korea</span>
+      <span class="cpill">Sweden</span>
+      <span class="cpill">Switzerland</span>
+      <span class="cpill">Taiwan</span>
+      <span class="cpill">Thailand</span>
+      <span class="cpill">United Kingdom</span>
+      <span class="cpill">United States</span>
+    </div>
+  </div>
+</section>
+
+<hr class="sep" />
+
 <section id="contact">
   <div class="wrap">
     <p class="slabel">Get in touch</p>
@@ -535,6 +601,26 @@
     es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); } });
   }, { threshold: .07, rootMargin: '0px 0px -28px 0px' });
   document.querySelectorAll('.fi').forEach(el => io.observe(el));
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script>
+  const visited = new Set([
+    "840","170","591","158","410","764","702","276","040","528",
+    "056","752","380","642","100","756","620","203","250","826","492","440"
+  ]);
+  const svg = d3.select('#world-map');
+  const proj = d3.geoNaturalEarth1().scale(148).translate([450,240]);
+  const path = d3.geoPath(proj);
+  d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(world => {
+    const features = topojson.feature(world, world.objects.countries).features;
+    svg.selectAll('path').data(features).join('path')
+      .attr('d', path)
+      .attr('fill', d => visited.has(String(d.id).padStart(3,'0')) ? '#5b8dee' : '#1e2333')
+      .attr('stroke', '#0c0e13')
+      .attr('stroke-width', 0.4);
+  });
 </script>
 
 </body>
