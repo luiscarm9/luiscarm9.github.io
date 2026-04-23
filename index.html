@@ -32,21 +32,18 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{font-family:var(--sans);background:var(--bg);color:var(--txt);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(91,141,238,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(91,141,238,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
 
-
-    /* ── Nav ── */
     nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;background:rgba(12,14,19,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--bdr)}
     .nav-name{font-family:var(--serif);font-size:1rem;color:var(--txt);text-decoration:none;letter-spacing:.01em}
     .nav-links{display:flex;gap:1.75rem;list-style:none}
     .nav-links a{color:var(--mut);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;transition:color .2s}
     .nav-links a:hover{color:var(--acc)}
 
-    /* ── Layout ── */
     .wrap{position:relative;z-index:1;max-width:var(--mw);margin:0 auto;padding:0 1.5rem}
     section{padding:5.5rem 0}
     hr.sep{border:none;border-top:1px solid var(--bdr);margin:0}
 
-    /* ── Hero ── */
     #hero{min-height:100vh;display:flex;align-items:center;padding-top:4.5rem}
     .hero-grid{display:grid;grid-template-columns:1fr 190px;gap:3rem;align-items:center;width:100%}
 
@@ -68,25 +65,21 @@
     .btn-g{background:transparent;color:var(--mut);border:1px solid var(--bdr)}
     .btn-g:hover{border-color:var(--bdr2);color:var(--txt)}
 
-    /* Photo */
     .photo-wrap{display:flex;justify-content:center}
     .photo{width:175px;height:175px;border-radius:50%;overflow:hidden;background:var(--surf2);display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
     .photo::after{content:'';position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(from 0deg,var(--acc),var(--acc2),var(--acc3),var(--acc));z-index:-1;animation:spin 8s linear infinite;opacity:.55}
     @keyframes spin{to{transform:rotate(360deg)}}
     .photo img{width:100%;height:100%;object-fit:cover}
 
-    /* ── Section headers ── */
     .slabel{font-size:.71rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--acc);margin-bottom:.55rem}
     h2.st{font-family:var(--serif);font-size:clamp(1.85rem,3.5vw,2.5rem);line-height:1.12;margin-bottom:2.4rem;color:var(--txt)}
 
-    /* ── Thesis highlight ── */
     .thesis-card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:1.8rem 2rem;margin-bottom:3rem;position:relative;overflow:hidden}
     .thesis-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc3))}
     .thesis-label{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--acc2);margin-bottom:.55rem}
     .thesis-title{font-family:var(--serif);font-size:1.25rem;line-height:1.4;color:var(--txt);margin-bottom:.5rem;font-style:italic}
     .thesis-meta{font-size:.82rem;color:var(--mut);font-weight:300}
 
-    /* ── Awards / Challenges grid ── */
     .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:1rem}
     .card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:1.35rem 1.5rem;position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
     .card:hover{border-color:rgba(91,141,238,.3);transform:translateY(-2px)}
@@ -95,7 +88,6 @@
     .card-t{font-weight:600;font-size:.9rem;margin-bottom:.28rem;line-height:1.4}
     .card-d{font-size:.79rem;color:var(--mut);line-height:1.55}
 
-    /* ── Interests ── */
     .ints{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem}
     .int{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:1.3rem 1.2rem;transition:all .2s}
     .int:hover{border-color:rgba(167,139,250,.28);background:var(--surf2)}
@@ -103,7 +95,19 @@
     .int-n{font-weight:500;font-size:.9rem;margin-bottom:.28rem}
     .int-d{font-size:.77rem;color:var(--mut);line-height:1.58}
 
-    /* ── Publications ── */
+    .timeline{display:flex;flex-direction:column;gap:0}
+    .tl-item{display:grid;grid-template-columns:120px 1px 1fr;gap:0 1.5rem;align-items:stretch}
+    .tl-period{text-align:right;font-size:.78rem;color:var(--fnt);font-weight:400;padding-top:.9rem;line-height:1.4}
+    .tl-line{display:flex;flex-direction:column;align-items:center;gap:0}
+    .tl-dot{width:10px;height:10px;border-radius:50%;background:var(--acc);flex-shrink:0;margin-top:1rem;box-shadow:0 0 0 3px rgba(91,141,238,.18)}
+    .tl-stem{flex:1;width:1px;background:var(--bdr);min-height:1rem}
+    .tl-item:last-child .tl-stem{background:transparent}
+    .tl-body{padding:.75rem 0 2rem 0}
+    .tl-degree{font-weight:600;font-size:.97rem;color:var(--txt);margin-bottom:.18rem}
+    .tl-uni{font-size:.85rem;color:var(--mut);font-weight:300;margin-bottom:.12rem}
+    .tl-loc{font-size:.78rem;color:var(--fnt)}
+    .tl-note{font-size:.78rem;color:var(--acc2);margin-top:.3rem}
+
     .pub-year-group{margin-bottom:2.2rem}
     .pub-year-label{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt);margin-bottom:.75rem;padding-left:.1rem}
     .pubs{display:flex;flex-direction:column;gap:.75rem}
@@ -122,7 +126,6 @@
     .pl{display:inline-flex;align-items:center;gap:.25rem;font-size:.74rem;font-weight:500;color:var(--mut);text-decoration:none;padding:.25rem .6rem;border:1px solid var(--bdr);border-radius:6px;transition:all .15s}
     .pl:hover{border-color:var(--acc);color:var(--acc)}
 
-    /* ── Contact ── */
     .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
     .ctxt{font-size:1rem;color:var(--mut);font-weight:300;line-height:1.88;margin-bottom:1.5rem}
     .socials{display:flex;flex-direction:column;gap:.55rem}
@@ -133,7 +136,6 @@
     footer{border-top:1px solid var(--bdr);padding:2rem 0;text-align:center}
     footer p{font-size:.77rem;color:var(--fnt)}
 
-    /* Animations */
     .fi{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
     .fi.vis{opacity:1;transform:translateY(0)}
 
@@ -155,25 +157,25 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#research">Research</a></li>
+    <li><a href="#education">Education</a></li>
     <li><a href="#publications">Publications</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
-<!-- ── Hero ── -->
 <section id="hero">
   <div class="wrap">
     <div class="hero-grid">
       <div>
         <div class="badge"><span class="dot"></span>PhD Candidate · FAU Erlangen-Nuremberg</div>
         <h1 class="hn">Luis Carlos<br><em>Rivera Monroy</em></h1>
-        <p class="pos">PhD Candidate & Senior ML Scientist · Computational Pathology</p>
+        <p class="pos">PhD Candidate &amp; Senior ML Scientist · Computational Pathology</p>
         <p class="affil">Pattern Recognition Lab, FAU Erlangen-Nürnberg · Erlangen, Germany</p>
         <p class="bio">
           I develop <strong>graph-based deep learning methods</strong> for
           <strong>computational pathology</strong> and <strong>medical image analysis</strong>,
           with a focus on multimodal histopathology, whole-slide imaging, and GNNs.
-          My work spans neuro-oncology, dermatology, and stroke lesion analysis —
+          My work spans neuro-oncology, dermatology, and stroke lesion analysis,
           combining Transformers, diffusion models, and cell-graph representations
           to tackle challenging problems in clinical AI.
         </p>
@@ -193,12 +195,6 @@
       </div>
       <div class="photo-wrap">
         <div class="photo">
-          <!--
-            Photo from CV is available. To use it:
-            Export/crop the photo from the CV and save as "photo.jpg" next to index.html
-            Then replace the line below with:
-            <img src="photo.jpg" alt="Luis Carlos Rivera Monroy">
-          -->
           <img src="photo.jpg" alt="Luis Carlos Rivera Monroy" onerror="this.style.display='none';this.parentElement.querySelector('.ini').style.display='flex'">
           <span class="ini" style="display:none;font-family:var(--serif);font-size:2.5rem;color:var(--mut);font-style:italic">LR</span>
         </div>
@@ -209,11 +205,8 @@
 
 <hr class="sep" />
 
-<!-- ── About: Thesis + Challenges ── -->
 <section id="about">
   <div class="wrap">
-
-    <!-- PhD Thesis -->
     <p class="slabel">PhD Research</p>
     <h2 class="st">Doctoral thesis</h2>
     <div class="thesis-card fi">
@@ -224,79 +217,80 @@
       </div>
     </div>
 
-    <!-- Challenge participations -->
     <p class="slabel" style="margin-top:1rem">Competitive benchmarks</p>
     <h2 class="st">Challenge participations</h2>
     <div class="cards-grid fi">
-
       <div class="card">
         <div class="card-em">🥇</div>
         <div class="card-t">BraTS Pathology Challenge, 1st Place</div>
-        <div class="card-d">
-          MICCAI 2025 · Brain tumor sub-region classification from whole-slide pathology images.
-          Top-ranked team among all international participants.
-        </div>
+        <div class="card-d">MICCAI 2025 · Brain tumor sub-region classification from whole-slide pathology images. Top-ranked team among all international participants.</div>
       </div>
-
       <div class="card">
         <div class="card-em">🧠</div>
         <div class="card-t">BraTS Challenge</div>
-        <div class="card-d">
-          MICCAI 2017 & 2018 · Brain Tumor Segmentation challenge. Co-author on the landmark
-          benchmarking paper (2,771 citations). Tasks: segmentation, survival prediction, progression assessment.
-        </div>
+        <div class="card-d">MICCAI 2017 &amp; 2018 · Brain Tumor Segmentation challenge. Co-author on the landmark benchmarking paper (2,771 citations). Tasks: segmentation, survival prediction, progression assessment.</div>
       </div>
-
       <div class="card">
         <div class="card-em">💉</div>
         <div class="card-t">ISLES Challenge</div>
-        <div class="card-d">
-          MICCAI 2016 & 2017 · Ischemic Stroke Lesion Segmentation. Benchmarking lesion outcome
-          prediction from multispectral MRI. Published in Frontiers in Neurology (217 citations).
-        </div>
+        <div class="card-d">MICCAI 2016 &amp; 2017 · Ischemic Stroke Lesion Segmentation. Benchmarking lesion outcome prediction from multispectral MRI. Published in Frontiers in Neurology (217 citations).</div>
       </div>
-
     </div>
   </div>
 </section>
 
 <hr class="sep" />
 
-<!-- ── Research interests ── -->
 <section id="research">
   <div class="wrap">
     <p class="slabel">Focus areas</p>
     <h2 class="st">Research interests</h2>
     <div class="ints fi">
-      <div class="int">
-        <div class="int-ico">🔬</div>
-        <div class="int-n">Computational Pathology</div>
-        <div class="int-d">Deep learning on whole-slide images for tumor grading, classification, and multi-stained tissue analysis.</div>
+      <div class="int"><div class="int-ico">🔬</div><div class="int-n">Computational Pathology</div><div class="int-d">Deep learning on whole-slide images for tumor grading, classification, and multi-stained tissue analysis.</div></div>
+      <div class="int"><div class="int-ico">🕸️</div><div class="int-n">Graph Neural Networks</div><div class="int-d">Cell-graph representations for multi-level cancer profiling and radiomic/genomic feature integration.</div></div>
+      <div class="int"><div class="int-ico">🧠</div><div class="int-n">Brain Tumor Segmentation</div><div class="int-d">MRI-based glioma segmentation and histopathology sub-region classification with foundation models.</div></div>
+      <div class="int"><div class="int-ico">💉</div><div class="int-n">Stroke Lesion Analysis</div><div class="int-d">Ischemic stroke lesion outcome prediction from multispectral MRI sequences.</div></div>
+      <div class="int"><div class="int-ico">🌊</div><div class="int-n">Diffusion Models</div><div class="int-d">Graph-aided diffusion models for precision segmentation of challenging tumor regions in MRI.</div></div>
+      <div class="int"><div class="int-ico">🎭</div><div class="int-n">Multimodal Learning</div><div class="int-d">Integrating imaging, omics, and clinical data with Transformers, CNNs, and GNNs for holistic cancer profiling.</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep" />
+
+<section id="education">
+  <div class="wrap">
+    <p class="slabel">Background</p>
+    <h2 class="st">Education</h2>
+    <div class="timeline fi">
+      <div class="tl-item">
+        <div class="tl-period">2020 – present</div>
+        <div class="tl-line"><div class="tl-dot"></div><div class="tl-stem"></div></div>
+        <div class="tl-body">
+          <div class="tl-degree">PhD in Computer Science</div>
+          <div class="tl-uni"><a href="https://lme.tf.fau.de/" target="_blank" style="color:inherit;text-decoration:none">Pattern Recognition Lab, Friedrich-Alexander-Universität Erlangen-Nürnberg</a></div>
+          <div class="tl-loc">Erlangen, Germany</div>
+          <div class="tl-note">Supervised by Prof. Andreas Maier</div>
+        </div>
       </div>
-      <div class="int">
-        <div class="int-ico">🕸️</div>
-        <div class="int-n">Graph Neural Networks</div>
-        <div class="int-d">Cell-graph representations for multi-level cancer profiling and radiomic/genomic feature integration.</div>
+      <div class="tl-item">
+        <div class="tl-period">2017 – 2020</div>
+        <div class="tl-line"><div class="tl-dot"></div><div class="tl-stem"></div></div>
+        <div class="tl-body">
+          <div class="tl-degree">M.Sc. in Medical Engineering</div>
+          <div class="tl-uni">Friedrich-Alexander-Universität Erlangen-Nürnberg</div>
+          <div class="tl-loc">Erlangen, Germany</div>
+        </div>
       </div>
-      <div class="int">
-        <div class="int-ico">🧠</div>
-        <div class="int-n">Brain Tumor Segmentation</div>
-        <div class="int-d">MRI-based glioma segmentation and histopathology sub-region classification with foundation models.</div>
-      </div>
-      <div class="int">
-        <div class="int-ico">💉</div>
-        <div class="int-n">Stroke Lesion Analysis</div>
-        <div class="int-d">Ischemic stroke lesion outcome prediction from multispectral MRI sequences.</div>
-      </div>
-      <div class="int">
-        <div class="int-ico">🌊</div>
-        <div class="int-n">Diffusion Models</div>
-        <div class="int-d">Graph-aided diffusion models for precision segmentation of challenging tumor regions in MRI.</div>
-      </div>
-      <div class="int">
-        <div class="int-ico">🎭</div>
-        <div class="int-n">Multimodal Learning</div>
-        <div class="int-d">Integrating imaging, omics, and clinical data with Transformers, CNNs, and GNNs for holistic cancer profiling.</div>
+      <div class="tl-item">
+        <div class="tl-period">2013 – 2017</div>
+        <div class="tl-line"><div class="tl-dot"></div><div class="tl-stem"></div></div>
+        <div class="tl-body">
+          <div class="tl-degree">B.Eng. in Biomedical Engineering</div>
+          <div class="tl-uni"><a href="https://biomedicalcomputervision.uniandes.edu.co/" target="_blank" style="color:inherit;text-decoration:none">Universidad de los Andes</a></div>
+          <div class="tl-loc">Bogotá, Colombia</div>
+          <div class="tl-note">Member of the Biomedical Computer Vision Group (BCV) · Supervised by Prof. Pablo Arbeláez</div>
+        </div>
       </div>
     </div>
   </div>
@@ -304,248 +298,164 @@
 
 <hr class="sep" />
 
-<!-- ── Publications ── -->
 <section id="publications">
   <div class="wrap">
     <p class="slabel">Selected works</p>
     <h2 class="st">Publications</h2>
 
-    <!-- 2026 -->
     <div class="pub-year-group fi">
       <div class="pub-year-label">2026</div>
       <div class="pubs">
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">Virchows Archiv</span>
-            <span class="ptag tj">Journal</span>
-          </div>
+          <div class="pmeta"><span class="pvn">Virchows Archiv</span><span class="ptag tj">Journal</span></div>
           <div class="ptitle">Vision transformer-based diagnosis of psoriasis and eczema in whole-slide histology</div>
-          <div class="pauth"><strong>L Rivera Monroy</strong>, A Petzold, M Sari, K Breininger, A Maier, J Vera-González, et al.</div>
-          <div class="plinks">
-            <!-- TODO: add DOI/PDF link when available -->
-            <a class="pl" href="#" target="_blank">DOI</a>
-          </div>
+          <div class="pauth"><strong>L. Rivera Monroy</strong>, A. Petzold, M. Sari, K. Breininger, A. Maier, J. Vera-González, et al.</div>
+          <div class="plinks"><a class="pl" href="https://link.springer.com/article/10.1007/s00428-026-04445-x" target="_blank">DOI</a></div>
         </div>
       </div>
     </div>
 
-    <!-- 2025 -->
     <div class="pub-year-group fi">
       <div class="pub-year-label">2025</div>
       <div class="pubs">
 
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">MICCAI 2025</span>
-            <span class="ptag tw">🥇 BraTS Pathology Winner</span>
-          </div>
+          <div class="pmeta"><span class="pvn">MICCAI 2025</span><span class="ptag tw">🥇 BraTS Pathology Winner</span></div>
           <div class="ptitle">Patch-Level Brain Tumor Sub-region Classification Using Foundation Models Under Long-Tailed Data Distributions</div>
-          <div class="pauth"><strong>LCR Monroy</strong>, M Mayr, L Mill, H Köstler, A Maier</div>
-          <div class="plinks">
-            <!-- TODO: add PDF / arXiv / Code links when posted -->
-            <a class="pl" href="#" target="_blank">PDF</a>
-            <a class="pl" href="#" target="_blank">arXiv</a>
-            <a class="pl" href="#" target="_blank">Code</a>
-          </div>
+          <div class="pauth"><strong>L. Rivera Monroy</strong>, M. Mayr, L. Mill, H. Köstler, A. Maier</div>
+          <div class="plinks"><a class="pl" href="https://link.springer.com/chapter/10.1007/978-3-032-16370-7_19" target="_blank">DOI</a></div>
         </div>
 
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">ISMRM 2025</span>
-          </div>
+          <div class="pmeta"><span class="pvn">ISMRM 2025</span></div>
           <div class="ptitle">Graph-Aided Diffusion Models for Precision Segmentation of Challenging Tumor Areas in MRI</div>
-          <div class="pauth"><strong>L Rivera</strong>, L Pfaff, T Wang, N Kleuser, A Maier</div>
-          <div class="plinks">
-            <!-- TODO: add link -->
-            <a class="pl" href="#" target="_blank">Abstract</a>
-          </div>
+          <div class="pauth"><strong>L. Rivera Monroy</strong>, L. Pfaff, T. Wang, N. Kleuser, A. Maier</div>
+          <div class="plinks"><a class="pl" href="https://archive.ismrm.org/2025/3977_08wpgMQtC.html" target="_blank">Abstract</a></div>
         </div>
 
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">IJCARS</span>
-            <span class="ptag tj">Journal</span>
-          </div>
+          <div class="pmeta"><span class="pvn">IJCARS</span><span class="ptag tj">Journal</span></div>
           <div class="ptitle">Graph neural networks in multi-stained pathological imaging: extended comparative analysis of radiomic features</div>
-          <div class="pauth"><strong>L Rivera</strong>, L Rist, C Ostalecki, A Bauer, J Vera, K Breininger, A Maier</div>
-          <div class="plinks">
-            <!-- TODO: add DOI -->
-            <a class="pl" href="#" target="_blank">DOI</a>
-          </div>
+          <div class="pauth"><strong>L. Rivera Monroy</strong>, L. Rist, C. Ostalecki, A. Bauer, J. Vera, K. Breininger, A. Maier</div>
+          <div class="plinks"><a class="pl" href="https://link.springer.com/article/10.1007/s11548-024-03277-x" target="_blank">DOI</a></div>
         </div>
 
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">Virchows Archiv</span>
-            <span class="ptag tj">Journal</span>
-          </div>
+          <div class="pmeta"><span class="pvn">Virchows Archiv</span><span class="ptag tj">Journal</span></div>
           <div class="ptitle">An artificial intelligence model of whole-slide pathology specimens differentiating cutaneous high-grade squamous proliferations</div>
-          <div class="pauth">A Petzold, A Wessely, M Erdmann, S Schliep, S Schreml, <strong>L Rivera</strong>, J Vera, K Drexler, et al.</div>
-          <div class="plinks">
-            <!-- TODO: add DOI -->
-            <a class="pl" href="#" target="_blank">DOI</a>
-          </div>
+          <div class="pauth">A. Petzold, A. Wessely, M. Erdmann, S. Schliep, S. Schreml, <strong>L. Rivera Monroy</strong>, J. Vera, K. Drexler, et al.</div>
+          <div class="plinks"><a class="pl" href="https://link.springer.com/article/10.1007/s00428-025-04272-6" target="_blank">DOI</a></div>
         </div>
 
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">ML for Biomedical Imaging</span>
-            <span class="ptag tj">Journal</span>
-          </div>
+          <div class="pmeta"><span class="pvn">ML for Biomedical Imaging</span><span class="ptag tj">Journal</span></div>
           <div class="ptitle">A COCO-Formatted Instance-Level Dataset for Plasmodium Falciparum Detection in Giemsa-Stained Blood Smears</div>
-          <div class="pauth">F Wilm, <strong>L Rivera</strong>, M Öttl, L Mürdter, L Mill, A Maier</div>
-          <div class="plinks">
-            <a class="pl" href="https://arxiv.org/abs/2507.18483" target="_blank">arXiv</a>
-          </div>
+          <div class="pauth">F. Wilm, <strong>L. Rivera Monroy</strong>, M. Öttl, L. Mürdter, L. Mill, A. Maier</div>
+          <div class="plinks"><a class="pl" href="https://arxiv.org/abs/2507.18483" target="_blank">arXiv</a></div>
         </div>
 
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">BVM Workshop 2025</span>
-          </div>
+          <div class="pmeta"><span class="pvn">BVM Workshop 2025</span></div>
           <div class="ptitle">Multi-level cancer profiling through joint cell-graph representations (extended abstract)</div>
-          <div class="pauth"><strong>LC Rivera Monroy</strong>, L Rist, F Wilm, C Ostalecki, A Baur, J Vera, K Breininger, A Maier</div>
-          <div class="plinks">
-            <a class="pl" href="#" target="_blank">PDF</a>
-          </div>
+          <div class="pauth"><strong>L. Rivera Monroy</strong>, L. Rist, F. Wilm, C. Ostalecki, A. Baur, J. Vera, K. Breininger, A. Maier</div>
+          <div class="plinks"><a class="pl" href="https://link.springer.com/chapter/10.1007/978-3-658-47422-5_34" target="_blank">DOI</a></div>
         </div>
 
       </div>
     </div>
 
-    <!-- 2024 -->
     <div class="pub-year-group fi">
       <div class="pub-year-label">2024</div>
       <div class="pubs">
 
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">Smart Health</span>
-            <span class="ptag tj">Journal</span>
-          </div>
+          <div class="pmeta"><span class="pvn">Smart Health</span><span class="ptag tj">Journal</span></div>
           <div class="ptitle">Multi-level cancer profiling through joint cell-graph representations</div>
-          <div class="pauth"><strong>LC Rivera Monroy</strong>, L Rist, F Wilm, C Ostalecki, A Baur, J Vera, K Breininger, A Maier</div>
-          <div class="plinks">
-            <!-- TODO: add DOI -->
-            <a class="pl" href="#" target="_blank">DOI</a>
-          </div>
+          <div class="pauth"><strong>L. Rivera Monroy</strong>, L. Rist, F. Wilm, C. Ostalecki, A. Baur, J. Vera, K. Breininger, A. Maier</div>
+          <div class="plinks"><a class="pl" href="https://www.sciencedirect.com/science/article/pii/S2352648324000266" target="_blank">DOI</a></div>
         </div>
 
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">BVM Workshop</span>
-          </div>
+          <div class="pmeta"><span class="pvn">BVM Workshop</span></div>
           <div class="ptitle">Comparative analysis of radiomic features and gene expression profiles in histopathology data using graph neural networks</div>
-          <div class="pauth"><strong>LCR Monroy</strong>, L Rist, M Eberhardt, C Ostalecki, A Bauer, J Vera, K Breininger, A Maier</div>
-          <div class="plinks">
-            <a class="pl" href="#" target="_blank">PDF</a>
-          </div>
+          <div class="pauth"><strong>L. Rivera Monroy</strong>, L. Rist, M. Eberhardt, C. Ostalecki, A. Bauer, J. Vera, K. Breininger, A. Maier</div>
+          <div class="plinks"><a class="pl" href="https://link.springer.com/chapter/10.1007/978-3-658-44037-4_49" target="_blank">DOI</a></div>
         </div>
 
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">2024</span>
-          </div>
+          <div class="pmeta"><span class="pvn">ISMRM 2024</span></div>
           <div class="ptitle">Focused MRI Segmentation: Leveraging Diffusion Models for Brain Tumor Segmentation in Low-Resolution Areas</div>
-          <div class="pauth"><strong>LCR Monroy</strong>, T Wang, V Belagiannis, A Maier</div>
-          <div class="plinks">
-            <a class="pl" href="#" target="_blank">PDF</a>
-          </div>
+          <div class="pauth"><strong>L. Rivera Monroy</strong>, T. Wang, V. Belagiannis, A. Maier</div>
+          <div class="plinks"><a class="pl" href="https://archive.ismrm.org/2024/1756_1CFPXaQX1.html" target="_blank">Abstract</a></div>
         </div>
 
       </div>
     </div>
 
-    <!-- 2023 -->
     <div class="pub-year-group fi">
       <div class="pub-year-label">2023</div>
       <div class="pubs">
         <div class="pub">
           <div class="pmeta"><span class="pvn">ISBI 2023</span></div>
           <div class="ptitle">Employing graph representations for cell-level characterization of melanoma MELC samples</div>
-          <div class="pauth"><strong>LCR Monroy</strong>, L Rist, M Eberhardt, C Ostalecki, A Baur, J Vera, K Breininger, A Maier</div>
-          <div class="plinks">
-            <a class="pl" href="#" target="_blank">IEEE</a>
-          </div>
+          <div class="pauth"><strong>L. Rivera Monroy</strong>, L. Rist, M. Eberhardt, C. Ostalecki, A. Baur, J. Vera, K. Breininger, A. Maier</div>
+          <div class="plinks"><a class="pl" href="https://ieeexplore.ieee.org/document/10230683" target="_blank">IEEE</a></div>
         </div>
       </div>
     </div>
 
-    <!-- 2022 -->
     <div class="pub-year-group fi">
       <div class="pub-year-label">2022</div>
       <div class="pubs">
         <div class="pub">
           <div class="pmeta"><span class="pvn">CHASE 2022</span></div>
           <div class="ptitle">Melanoma Segmentation and Classification Employing Imaging and Graph Encodings</div>
-          <div class="pauth"><strong>LC Rivera Monroy</strong>, M Eberhardt, C Ostalecki, A Baur, J Vera, A Maier</div>
-          <div class="plinks">
-            <a class="pl" href="#" target="_blank">IEEE</a>
-          </div>
+          <div class="pauth"><strong>L. Rivera Monroy</strong>, M. Eberhardt, C. Ostalecki, A. Baur, J. Vera, A. Maier</div>
+          <div class="plinks"><a class="pl" href="https://ieeexplore.ieee.org/abstract/document/9983616" target="_blank">IEEE</a></div>
         </div>
       </div>
     </div>
 
-    <!-- 2020 -->
     <div class="pub-year-group fi">
       <div class="pub-year-label">2020</div>
       <div class="pubs">
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">BVM 2020</span>
-            <span class="ptag tj">Journal</span>
-          </div>
+          <div class="pmeta"><span class="pvn">BVM 2020</span></div>
           <div class="ptitle">Multi-Channel Volumetric Neural Network for Knee Cartilage Segmentation in Cone-Beam CT</div>
-          <div class="pauth">J Maier, <strong>L Rivera</strong>, C Syben, Y Jeon, JH Choi, ME Hall, M Levenston, G Gold, R Fahrig, A Maier</div>
-          <div class="plinks">
-            <a class="pl" href="#" target="_blank">PDF</a>
-          </div>
+          <div class="pauth">J. Maier, <strong>L. Rivera Monroy</strong>, C. Syben, Y. Jeon, J.-H. Choi, M. Hall, M. Levenston, G. Gold, R. Fahrig, A. Maier</div>
+          <div class="plinks"><a class="pl" href="https://link.springer.com/chapter/10.1007/978-3-658-29267-6_14" target="_blank">DOI</a></div>
         </div>
       </div>
     </div>
 
-    <!-- 2018 -->
     <div class="pub-year-group fi">
       <div class="pub-year-label">2018</div>
       <div class="pubs">
 
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">arXiv / NMI</span>
-            <span class="ptag tc">2,771 citations</span>
-          </div>
+          <div class="pmeta"><span class="pvn">arXiv / NMI</span><span class="ptag tc">2,771 citations</span></div>
           <div class="ptitle">Identifying the best machine learning algorithms for brain tumor segmentation, progression assessment, and overall survival prediction in the BraTS Challenge</div>
-          <div class="pauth">S Bakas, M Reyes, A Jakab, ..., <strong>LC Rivera</strong>, et al.</div>
-          <div class="plinks">
-            <a class="pl" href="https://arxiv.org/abs/1811.02629" target="_blank">arXiv</a>
-          </div>
+          <div class="pauth">S. Bakas, M. Reyes, A. Jakab, ..., <strong>L. Rivera Monroy</strong>, et al.</div>
+          <div class="plinks"><a class="pl" href="https://arxiv.org/abs/1811.02629" target="_blank">arXiv</a></div>
         </div>
 
         <div class="pub">
-          <div class="pmeta">
-            <span class="pvn">Frontiers in Neurology</span>
-            <span class="ptag tj">Journal · 217 citations</span>
-          </div>
+          <div class="pmeta"><span class="pvn">Frontiers in Neurology</span><span class="ptag tj">Journal · 217 citations</span></div>
           <div class="ptitle">ISLES 2016 and 2017: Benchmarking ischemic stroke lesion outcome prediction based on multispectral MRI</div>
-          <div class="pauth">S Winzeck, A Hakim, R McKinley, ..., <strong>LC Rivera</strong>, et al.</div>
-          <div class="plinks">
-            <a class="pl" href="https://doi.org/10.3389/fneur.2018.00679" target="_blank">DOI</a>
-          </div>
+          <div class="pauth">S. Winzeck, A. Hakim, R. McKinley, ..., <strong>L. Rivera Monroy</strong>, et al.</div>
+          <div class="plinks"><a class="pl" href="https://doi.org/10.3389/fneur.2018.00679" target="_blank">DOI</a></div>
         </div>
 
         <div class="pub">
           <div class="pmeta"><span class="pvn">MICCAI Brainlesion Workshop</span></div>
           <div class="ptitle">Brain tumor segmentation and parsing on MRIs using multiresolution neural networks</div>
-          <div class="pauth">LS Castillo, LA Daza, <strong>L Rivera</strong>, P Arbeláez</div>
-          <div class="plinks">
-            <a class="pl" href="#" target="_blank">PDF</a>
-          </div>
+          <div class="pauth">L. Castillo, L. Daza, <strong>L. Rivera Monroy</strong>, P. Arbeláez</div>
+          <div class="plinks"><a class="pl" href="https://biomedicalcomputervision.uniandes.edu.co/wp-content/uploads/2021/06/cdra_miccai2017.pdf" target="_blank">PDF</a></div>
         </div>
 
       </div>
     </div>
 
-    <!-- 2017 -->
     <div class="pub-year-group fi">
       <div class="pub-year-label">2017</div>
       <div class="pubs">
@@ -553,42 +463,28 @@
         <div class="pub">
           <div class="pmeta"><span class="pvn">MIPAA / SPIE 2017</span></div>
           <div class="ptitle">Volumetric multimodality neural network for brain tumor segmentation</div>
-          <div class="pauth">LS Castillo, LA Daza, <strong>L Rivera</strong>, P Arbeláez</div>
-          <div class="plinks">
-            <a class="pl" href="#" target="_blank">PDF</a>
-          </div>
+          <div class="pauth">L. Castillo, L. Daza, <strong>L. Rivera Monroy</strong>, P. Arbeláez</div>
+          <div class="plinks"><a class="pl" href="https://cinfonia.uniandes.edu.co/wp-content/uploads/2021/06/cdr_sipaim2017.pdf" target="_blank">PDF</a></div>
         </div>
 
         <div class="pub">
           <div class="pmeta"><span class="pvn">MICCAI 2017 BraTS</span></div>
           <div class="ptitle">Volumetric multimodality neural network for brain tumor segmentation (BraTS Challenge)</div>
-          <div class="pauth">LS Castillo, LA Daza, <strong>L Rivera</strong>, P Arbeláez</div>
-          <div class="plinks">
-            <a class="pl" href="#" target="_blank">Abstract</a>
-          </div>
-        </div>
-
-        <div class="pub">
-          <div class="pmeta"><span class="pvn">MICCAI 2017 ISLES</span></div>
-          <div class="ptitle">Volumetric multimodality neural network for ischemic stroke segmentation (ISLES Challenge)</div>
-          <div class="pauth">LS Castillo, LA Daza, <strong>L Rivera</strong>, P Arbeláez</div>
-          <div class="plinks">
-            <a class="pl" href="#" target="_blank">Abstract</a>
-          </div>
+          <div class="pauth">L. Castillo, L. Daza, <strong>L. Rivera Monroy</strong>, P. Arbeláez</div>
+          <div class="plinks"><a class="pl" href="https://cinfonia.uniandes.edu.co/wp-content/uploads/2021/06/cdr_sipaim2017.pdf" target="_blank">PDF</a></div>
         </div>
 
       </div>
     </div>
 
     <div style="margin-top:1.5rem;text-align:center">
-      <a class="btn btn-g" href="https://scholar.google.com/citations?user=pAMvGBIAAAAJ&hl=en" target="_blank">View full list on Google Scholar →</a>
+      <a class="btn btn-g" href="https://scholar.google.com/citations?user=pAMvGBIAAAAJ&hl=en" target="_blank">View full list on Google Scholar</a>
     </div>
   </div>
 </section>
 
 <hr class="sep" />
 
-<!-- ── Contact ── -->
 <section id="contact">
   <div class="wrap">
     <p class="slabel">Get in touch</p>
