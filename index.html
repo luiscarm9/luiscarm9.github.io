@@ -638,46 +638,42 @@
 
 <script>
   (async () => {
-    const key  = 'api_LQ95fFJOjCTN9RFLD7BD1AsHN6OdKT9N';
-    const id   = '2b350bf6-d222-4113-950d-85b0171f98ab';
-    const base = 'https://api.umami.is/v1';
-    const headers = { 'x-umami-api-key': key };
-    const now  = Date.now();
-    const start = 0;
+    const worker = 'https://umami-proxy.lc-rivera10.workers.dev';
 
     const flag = code => code.toUpperCase().replace(/./g, c =>
       String.fromCodePoint(c.charCodeAt(0) + 127397));
 
     try {
-      const [statsRes, countryRes] = await Promise.all([
-        fetch(`${base}/websites/${id}/stats?startAt=${start}&endAt=${now}`, { headers }),
-        fetch(`${base}/websites/${id}/metrics?type=country&startAt=${start}&endAt=${now}&limit=50`, { headers })
-      ]);
+      const res = await fetch(worker);
+      if (!res.ok) throw new Error();
+      const { stats, countries } = await res.json();
+      console.log('Umami stats:', JSON.stringify(stats));
 
-      if (statsRes.ok) {
-        const s = await statsRes.json();
-        const v = s.visitors?.value ?? s.uniques?.value ?? '—';
-        document.getElementById('visitor-count').textContent =
-          typeof v === 'number' ? v.toLocaleString() : v;
-      }
+      const v = stats.visitors?.value
+             ?? stats.uniques?.value
+             ?? stats.visits?.value
+             ?? stats.pageviews?.value
+             ?? stats.visitors
+             ?? stats.uniques
+             ?? '—';
+      document.getElementById('visitor-count').textContent =
+        typeof v === 'number' ? v.toLocaleString() : v;
 
       const wrap = document.getElementById('visitor-flags');
       wrap.innerHTML = '';
 
-      if (countryRes.ok) {
-        const data = await countryRes.json();
-        const rows = Array.isArray(data) ? data : data.data ?? [];
-        rows.sort((a, b) => b.y - a.y).forEach(({ x: code, y: visits }) => {
-          if (!code) return;
-          const el = document.createElement('div');
-          el.title = `${code}: ${visits} visit${visits !== 1 ? 's' : ''}`;
-          el.style.cssText = 'display:flex;align-items:center;gap:.4rem;background:var(--surf2);border:1px solid var(--bdr);border-radius:6px;padding:.28rem .65rem;cursor:default';
-          el.innerHTML = `<span style="font-size:1.25rem;line-height:1">${flag(code)}</span><span style="font-size:.76rem;color:var(--mut)">${visits}</span>`;
-          wrap.appendChild(el);
-        });
-        if (!wrap.children.length) {
-          wrap.innerHTML = '<span style="font-size:.82rem;color:var(--fnt)">No visitors yet — check back soon!</span>';
-        }
+      const rows = Array.isArray(countries) ? countries : countries.data ?? [];
+      rows.sort((a, b) => b.y - a.y).forEach(({ x: code, y: visits }) => {
+        if (!code) return;
+        const el = document.createElement('div');
+        el.title = `${code}: ${visits} visit${visits !== 1 ? 's' : ''}`;
+        el.style.cssText = 'display:flex;align-items:center;gap:.4rem;background:var(--surf2);border:1px solid var(--bdr);border-radius:6px;padding:.28rem .65rem;cursor:default';
+        el.innerHTML = `<span style="font-size:1.25rem;line-height:1">${flag(code)}</span><span style="font-size:.76rem;color:var(--mut)">${visits}</span>`;
+        wrap.appendChild(el);
+      });
+
+      if (!wrap.children.length) {
+        wrap.innerHTML = '<span style="font-size:.82rem;color:var(--fnt)">No visitors yet — check back soon!</span>';
       }
     } catch(e) {
       document.getElementById('visitor-flags').innerHTML =
