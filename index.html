@@ -550,13 +550,14 @@
 
     <p class="slabel" style="margin-top:3rem">Live analytics</p>
     <h2 class="st">Visitors to this site</h2>
-    <div class="fi" id="visitor-wrap" style="background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:1.5rem 1.75rem">
-      <div id="visitor-total" style="margin-bottom:1.25rem">
-        <span style="font-size:.71rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--acc)">Total visitors</span>
-        <div style="font-size:2rem;font-weight:500;color:var(--txt);line-height:1.2;margin-top:.25rem" id="visitor-count">—</div>
+    <div class="fi" style="background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:1.5rem 1.75rem">
+      <div style="margin-bottom:1.25rem">
+        <div class="slabel">Total visitors</div>
+        <div style="font-size:2rem;font-weight:500;color:var(--txt);line-height:1.2;margin-top:.2rem" id="visitor-count">—</div>
       </div>
-      <div id="visitor-flags" style="display:flex;flex-wrap:wrap;gap:.6rem;align-items:center"></div>
-      <p id="visitor-err" style="font-size:.8rem;color:var(--fnt);display:none">Could not load visitor data.</p>
+      <div id="visitor-flags" style="display:flex;flex-wrap:wrap;gap:.55rem;align-items:center">
+        <span style="font-size:.8rem;color:var(--fnt)">Loading...</span>
+      </div>
     </div>
   </div>
 </section>
@@ -637,50 +638,52 @@
 
 <script>
   (async () => {
-    const id = '2b350bf6-d222-4113-950d-85b0171f98ab';
-    const base = 'https://cloud.umami.is/api';
-    const shareToken = '8j2rfKyX8ic7FBmT';
-    const now = Date.now();
+    const key  = 'api_LQ95fFJOjCTN9RFLD7BD1AsHN6OdKT9N';
+    const id   = '2b350bf6-d222-4113-950d-85b0171f98ab';
+    const base = 'https://api.umami.is/v1';
+    const headers = { 'x-umami-api-key': key };
+    const now  = Date.now();
     const start = 0;
 
-    const countryToFlag = code => code.toUpperCase().replace(/./g, c =>
+    const flag = code => code.toUpperCase().replace(/./g, c =>
       String.fromCodePoint(c.charCodeAt(0) + 127397));
 
     try {
       const [statsRes, countryRes] = await Promise.all([
-        fetch(`${base}/share/${shareToken}/stats?startAt=${start}&endAt=${now}`),
-        fetch(`${base}/share/${shareToken}/metrics?type=country&startAt=${start}&endAt=${now}&limit=50`)
+        fetch(`${base}/websites/${id}/stats?startAt=${start}&endAt=${now}`, { headers }),
+        fetch(`${base}/websites/${id}/metrics?type=country&startAt=${start}&endAt=${now}&limit=50`, { headers })
       ]);
 
       if (statsRes.ok) {
-        const stats = await statsRes.json();
-        const count = stats.visitors?.value ?? stats.pageviews?.value ?? '—';
+        const s = await statsRes.json();
+        const v = s.visitors?.value ?? s.uniques?.value ?? '—';
         document.getElementById('visitor-count').textContent =
-          typeof count === 'number' ? count.toLocaleString() : count;
+          typeof v === 'number' ? v.toLocaleString() : v;
       }
 
+      const wrap = document.getElementById('visitor-flags');
+      wrap.innerHTML = '';
+
       if (countryRes.ok) {
-        const countries = await countryRes.json();
-        const wrap = document.getElementById('visitor-flags');
-        (Array.isArray(countries) ? countries : countries.data ?? [])
-          .sort((a, b) => b.y - a.y)
-          .forEach(({ x: code, y: visits }) => {
-            if (!code) return;
-            const el = document.createElement('div');
-            el.title = `${code}: ${visits} visit${visits !== 1 ? 's' : ''}`;
-            el.style.cssText = 'display:flex;align-items:center;gap:.35rem;background:var(--surf2);border:1px solid var(--bdr);border-radius:6px;padding:.3rem .65rem;cursor:default';
-            el.innerHTML = `<span style="font-size:1.3rem;line-height:1">${countryToFlag(code)}</span><span style="font-size:.78rem;color:var(--mut)">${visits}</span>`;
-            wrap.appendChild(el);
-          });
+        const data = await countryRes.json();
+        const rows = Array.isArray(data) ? data : data.data ?? [];
+        rows.sort((a, b) => b.y - a.y).forEach(({ x: code, y: visits }) => {
+          if (!code) return;
+          const el = document.createElement('div');
+          el.title = `${code}: ${visits} visit${visits !== 1 ? 's' : ''}`;
+          el.style.cssText = 'display:flex;align-items:center;gap:.4rem;background:var(--surf2);border:1px solid var(--bdr);border-radius:6px;padding:.28rem .65rem;cursor:default';
+          el.innerHTML = `<span style="font-size:1.25rem;line-height:1">${flag(code)}</span><span style="font-size:.76rem;color:var(--mut)">${visits}</span>`;
+          wrap.appendChild(el);
+        });
         if (!wrap.children.length) {
-          wrap.innerHTML = '<span style="font-size:.82rem;color:var(--fnt)">No visitor data yet — check back soon!</span>';
+          wrap.innerHTML = '<span style="font-size:.82rem;color:var(--fnt)">No visitors yet — check back soon!</span>';
         }
       }
-    } catch {
-      document.getElementById('visitor-err').style.display = 'block';
+    } catch(e) {
+      document.getElementById('visitor-flags').innerHTML =
+        '<span style="font-size:.8rem;color:var(--fnt)">Could not load visitor data.</span>';
     }
   })();
 </script>
-
 </body>
 </html>
