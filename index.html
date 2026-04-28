@@ -550,12 +550,13 @@
 
     <p class="slabel" style="margin-top:3rem">Live analytics</p>
     <h2 class="st">Visitors to this site</h2>
-    <div class="fi" style="border-radius:var(--r);overflow:hidden;border:1px solid var(--bdr)">
-      <iframe
-        src="https://cloud.umami.is/share/8j2rfKyX8ic7FBmT?theme=dark"
-        style="width:100%;height:600px;border:none;display:block;border-radius:var(--r)"
-        loading="lazy"
-        title="Site visitor analytics"></iframe>
+    <div class="fi" id="visitor-wrap" style="background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:1.5rem 1.75rem">
+      <div id="visitor-total" style="margin-bottom:1.25rem">
+        <span style="font-size:.71rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--acc)">Total visitors</span>
+        <div style="font-size:2rem;font-weight:500;color:var(--txt);line-height:1.2;margin-top:.25rem" id="visitor-count">—</div>
+      </div>
+      <div id="visitor-flags" style="display:flex;flex-wrap:wrap;gap:.6rem;align-items:center"></div>
+      <p id="visitor-err" style="font-size:.8rem;color:var(--fnt);display:none">Could not load visitor data.</p>
     </div>
   </div>
 </section>
@@ -632,6 +633,53 @@
       .attr('stroke', '#0c0e13')
       .attr('stroke-width', 0.4);
   });
+</script>
+
+<script>
+  (async () => {
+    const id = '2b350bf6-d222-4113-950d-85b0171f98ab';
+    const base = 'https://cloud.umami.is/api';
+    const shareToken = '8j2rfKyX8ic7FBmT';
+    const now = Date.now();
+    const start = 0;
+
+    const countryToFlag = code => code.toUpperCase().replace(/./g, c =>
+      String.fromCodePoint(c.charCodeAt(0) + 127397));
+
+    try {
+      const [statsRes, countryRes] = await Promise.all([
+        fetch(`${base}/share/${shareToken}/stats?startAt=${start}&endAt=${now}`),
+        fetch(`${base}/share/${shareToken}/metrics?type=country&startAt=${start}&endAt=${now}&limit=50`)
+      ]);
+
+      if (statsRes.ok) {
+        const stats = await statsRes.json();
+        const count = stats.visitors?.value ?? stats.pageviews?.value ?? '—';
+        document.getElementById('visitor-count').textContent =
+          typeof count === 'number' ? count.toLocaleString() : count;
+      }
+
+      if (countryRes.ok) {
+        const countries = await countryRes.json();
+        const wrap = document.getElementById('visitor-flags');
+        (Array.isArray(countries) ? countries : countries.data ?? [])
+          .sort((a, b) => b.y - a.y)
+          .forEach(({ x: code, y: visits }) => {
+            if (!code) return;
+            const el = document.createElement('div');
+            el.title = `${code}: ${visits} visit${visits !== 1 ? 's' : ''}`;
+            el.style.cssText = 'display:flex;align-items:center;gap:.35rem;background:var(--surf2);border:1px solid var(--bdr);border-radius:6px;padding:.3rem .65rem;cursor:default';
+            el.innerHTML = `<span style="font-size:1.3rem;line-height:1">${countryToFlag(code)}</span><span style="font-size:.78rem;color:var(--mut)">${visits}</span>`;
+            wrap.appendChild(el);
+          });
+        if (!wrap.children.length) {
+          wrap.innerHTML = '<span style="font-size:.82rem;color:var(--fnt)">No visitor data yet — check back soon!</span>';
+        }
+      }
+    } catch {
+      document.getElementById('visitor-err').style.display = 'block';
+    }
+  })();
 </script>
 
 </body>
