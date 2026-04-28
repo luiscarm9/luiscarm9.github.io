@@ -647,15 +647,8 @@
       const res = await fetch(worker);
       if (!res.ok) throw new Error();
       const { stats, countries } = await res.json();
-      console.log('Umami stats:', JSON.stringify(stats));
 
-      const v = stats.visitors?.value
-             ?? stats.uniques?.value
-             ?? stats.visits?.value
-             ?? stats.pageviews?.value
-             ?? stats.visitors
-             ?? stats.uniques
-             ?? '—';
+      const v = stats.visitors ?? '—';
       document.getElementById('visitor-count').textContent =
         typeof v === 'number' ? v.toLocaleString() : v;
 
